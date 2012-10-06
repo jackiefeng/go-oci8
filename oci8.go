@@ -178,7 +178,7 @@ func (c *OCI8Conn) Prepare(query string) (driver.Stmt, error) {
 		(*C.OraText)(unsafe.Pointer(pquery)),
 		C.ub4(C.strlen(pquery)),
 		C.ub4(C.OCI_NTV_SYNTAX),
-		C.ub4(C.OCI_DEFAULT))
+		C.ub4(OCI_MODE))
 	if rv == C.OCI_ERROR {
 		return nil, ociGetError(c.err)
 	}
@@ -233,7 +233,7 @@ func (s *OCI8Stmt) bind(args []driver.Value) error {
 			nil,
 			0,
 			nil,
-			C.OCI_DEFAULT)
+			OCI_MODE)
 
 		if rv == C.OCI_ERROR {
 			return ociGetError(s.c.err)
@@ -268,7 +268,7 @@ func (s *OCI8Stmt) Query(args []driver.Value) (driver.Rows, error) {
 		0,
 		nil,
 		nil,
-		C.OCI_DEFAULT)
+		OCI_MODE)
 	if rv == C.OCI_ERROR {
 		return nil, ociGetError(s.c.err)
 	}
@@ -333,7 +333,7 @@ func (s *OCI8Stmt) Query(args []driver.Value) (driver.Rows, error) {
 			nil,
 			nil,
 			nil,
-			C.OCI_DEFAULT)
+			OCI_MODE)
 		if rv == C.OCI_ERROR {
 			return nil, ociGetError(s.c.err)
 		}
@@ -388,7 +388,7 @@ func (s *OCI8Stmt) Exec(args []driver.Value) (driver.Result, error) {
 		0,
 		nil,
 		nil,
-		C.OCI_DEFAULT)
+		OCI_MODE)
 	if rv == C.OCI_ERROR {
 		return nil, ociGetError(s.c.err)
 	}
@@ -426,7 +426,7 @@ func (rc *OCI8Rows) Next(dest []driver.Value) error {
 		(*C.OCIError)(rc.s.c.err),
 		1,
 		C.OCI_FETCH_NEXT,
-		C.OCI_DEFAULT)
+		OCI_MODE)
 	if rv == C.OCI_ERROR {
 		return ociGetError(rc.s.c.err)
 	}
