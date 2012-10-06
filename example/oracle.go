@@ -35,11 +35,11 @@ func main() {
 	rows.Close()
 	
 	// 先删表,再建表
-	db.Exec("drop table foo")
+	db.Exec("drop table sdata")
 	db.Exec("create table sdata(name varchar2(256))")
 	
-	db.Exec("insert into sdata values(?)", "中文")
-	db.Exec("insert into sdata values(?)", "1234567890ABCabc!@#$%^&*()_+'")
+	db.Exec("insert into sdata values('中文')")
+	db.Exec("insert into sdata values('1234567890ABCabc!@#$%^&*()_+')")
 	
 	rows, err = db.Query("select * from sdata")
 	if err != nil {
@@ -49,7 +49,7 @@ func main() {
 	for rows.Next() {
 		var name string
 		rows.Scan(&name)
-		log.Println("Name = " + name)
+		log.Printf("Name = %s, len=%d", name, len(name))
 	}
 	rows.Close()
 }
