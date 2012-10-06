@@ -18,7 +18,7 @@ import (
 	"unsafe"
 )
 
-var OCI_MODE = C.OCI_THREADED
+var OCI_MODE C.ub4 = C.OCI_THREADED
 
 func init() {
 	sql.Register("oci8", &OCI8Driver{})

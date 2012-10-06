@@ -8,14 +8,14 @@ import (
 )
 
 func main() {
-	// ÎªlogÌí¼Ó¶ÌÎÄ¼şÃû,·½±ã²é¿´ĞĞÊı
+	// ä¸ºlogæ·»åŠ çŸ­æ–‡ä»¶å,æ–¹ä¾¿æŸ¥çœ‹è¡Œæ•°
 	log.SetFlags(log.Lshortfile | log.LstdFlags)
 	
 	log.Println("Oracle Driver example")
 	
 	os.Setenv("NLS_LANG", "")
 
-	// ÓÃ»§Ãû/ÃÜÂë@ÊµÀıÃû  ¸úsqlplusµÄconnÃüÁîÀàËÆ
+	// ç”¨æˆ·å/å¯†ç @å®ä¾‹å  è·Ÿsqlplusçš„connå‘½ä»¤ç±»ä¼¼
 	db, err := sql.Open("oci8", "system/123456@XE")
 	if err != nil {
 		log.Fatal(err)
@@ -34,11 +34,11 @@ func main() {
 	}
 	rows.Close()
 	
-	// ÏÈÉ¾±í,ÔÙ½¨±í
+	// å…ˆåˆ è¡¨,å†å»ºè¡¨
 	db.Exec("drop table foo")
 	db.Exec("create table sdata(name varchar2(256))")
 	
-	db.Exec("insert into sdata values(?)", "ÖĞÎÄ")
+	db.Exec("insert into sdata values(?)", "ä¸­æ–‡")
 	db.Exec("insert into sdata values(?)", "1234567890ABCabc!@#$%^&*()_+'")
 	
 	rows, err = db.Query("select * from sdata")

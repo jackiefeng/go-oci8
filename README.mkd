@@ -4,8 +4,8 @@ go-oci8
 DESCRIPTION 简介
 ----------------
 
-oracle driver for go that using database/sql
-实现了database/sql的Oracle数据库驱动,使用了OCI
+* oracle driver for go that using database/sql
+* 实现了database/sql的Oracle数据库驱动,使用了OCI
 
 LICENSE
 -------
