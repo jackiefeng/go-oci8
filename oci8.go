@@ -18,6 +18,8 @@ import (
 	"unsafe"
 )
 
+var OCI_MODE = C.OCI_THREADED
+
 func init() {
 	sql.Register("oci8", &OCI8Driver{})
 }
@@ -65,25 +67,28 @@ func (c *OCI8Conn) Begin() (driver.Tx, error) {
 	return &OCI8Tx{c}, nil
 }
 
+// Open("system/123456@XE")
 func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 	var conn OCI8Conn
 	token := strings.SplitN(dsn, "@", 2)
 	userpass := strings.SplitN(token[0], "/", 2)
 
+	// 老款的OCI初始化方式,但向后兼容,所以还是保留老方法
 	rv := C.OCIInitialize(
-		C.OCI_DEFAULT,
+		OCI_MODE, // TODO
 		nil,
 		nil,
 		nil,
 		nil)
 	if rv == C.OCI_ERROR {
-		return nil, ociGetError(conn.err)
+		// 这种错误就是没有把OCI的路径加入到系统PATH中
+		return nil, errors.New("OCI Init FAIL, OCI not in system PATH?")
 	}
 
 
 	rv = C.OCIEnvInit(
 		(**C.OCIEnv)(unsafe.Pointer(&conn.env)),
-		C.OCI_DEFAULT,
+		OCI_MODE,
 		0,
 		nil)
 
@@ -121,6 +126,7 @@ func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 		(*C.OraText)(unsafe.Pointer(phost)),
 		C.ub4(phostlen))
 	if rv == C.OCI_ERROR {
+		// 登陆失败
 		return nil, ociGetError(conn.err)
 	}
 
