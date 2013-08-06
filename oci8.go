@@ -85,7 +85,6 @@ func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 		return nil, errors.New("OCI Init FAIL, OCI not in system PATH?")
 	}
 
-
 	rv = C.OCIEnvInit(
 		(**C.OCIEnv)(unsafe.Pointer(&conn.env)),
 		OCI_MODE,
@@ -101,7 +100,6 @@ func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 	if rv == C.OCI_ERROR {
 		return nil, ociGetError(conn.err)
 	}
-
 
 	var phost *C.char
 	phostlen := C.size_t(0)
@@ -220,6 +218,7 @@ func (s *OCI8Stmt) bind(args []driver.Value) error {
 	var bp *C.OCIBind
 	for i, v := range args {
 		b := []byte(fmt.Sprintf("%v", v))
+		b = append(b, 0)
 		rv := C.OCIBindByPos(
 			(*C.OCIStmt)(s.s),
 			&bp,
@@ -428,7 +427,10 @@ func (rc *OCI8Rows) Next(dest []driver.Value) error {
 		C.OCI_FETCH_NEXT,
 		OCI_MODE)
 	if rv == C.OCI_ERROR {
-		return ociGetError(rc.s.c.err)
+		err := ociGetError(rc.s.c.err)
+		if err.Error()[:9] != "ORA-01405" {
+			return err
+		}
 	}
 
 	if rv == C.OCI_NO_DATA {
@@ -436,7 +438,7 @@ func (rc *OCI8Rows) Next(dest []driver.Value) error {
 	}
 
 	for i := range dest {
-		dest[i] = string(rc.cols[i].pbuf)
+		dest[i] = strings.TrimSpace(string(rc.cols[i].pbuf))
 	}
 
 	return nil
