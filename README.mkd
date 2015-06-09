@@ -1,31 +1,66 @@
 go-oci8
 =======
 
-DESCRIPTION ¼ò½é
+DESCRIPTION ç®€ä»‹
 ----------------
 
 * oracle driver for go that using database/sql
-* ÊµÏÖÁËdatabase/sqlµÄOracleÊı¾İ¿âÇı¶¯,Ê¹ÓÃÁËOCI
+* å®ç°äº†database/sqlçš„Oracleæ•°æ®åº“é©±åŠ¨,ä½¿ç”¨äº†OCI
 
 LICENSE
 -------
 
 MIT: http://mattn.mit-license.org/2011
 
-ÔÚWindowsÏÂ°²×°
+åœ¨Windowsä¸‹å®‰è£…
 ----
-1. °²×°×îĞÂ°æµÄgit,²¢ÉèÖÃ¿ÉÒÔ´ÓÃüÁîĞĞÖ±½Óµ÷ÓÃgitÃüÁî
-2. ÏÂÔØOCI×îĞÂ°æ,´æ·ÅÓÚC:\instantclient_11_2
-3. ÏÂÔØOCI SDK×îĞÂ°æ,´æ·ÅÓÚC:\instantclient_11_2\sdk
-4. ÏÂÔØMinGW×îĞÂ°æ,°²×°ÔÚC:\mingw
-5. ÏÂÔØpkg-config.exeºÍoci8.pc (ÒÑ¾­´æ·ÅÔÚwindowsÎÄ¼ş¼ĞÏÂ)
-6. ½«pkg-config.exe¸´ÖÆµ½C:\mingw\bin\ÏÂ
-7. ½«oci8.pc¸´ÖÆµ½C:\mingw\lib\pkg-config\ÏÂ
-8. ĞŞ¸ÄÏµÍ³»·¾³±äÁ¿,Ìí¼Ó
-   - PATH=Ô­ÓĞPATH;C:\instantclient_11_2;C:\mingw\bin;
+1. å®‰è£…æœ€æ–°ç‰ˆçš„git,å¹¶è®¾ç½®å¯ä»¥ä»å‘½ä»¤è¡Œç›´æ¥è°ƒç”¨gitå‘½ä»¤
+2. ä¸‹è½½OCIæœ€æ–°ç‰ˆ,å­˜æ”¾äºC:\instantclient_11_2
+3. ä¸‹è½½OCI SDKæœ€æ–°ç‰ˆ,å­˜æ”¾äºC:\instantclient_11_2\sdk
+4. ä¸‹è½½MinGWæœ€æ–°ç‰ˆ,å®‰è£…åœ¨C:\mingw
+5. ä¸‹è½½pkg-config.exeå’Œoci8.pc (å·²ç»å­˜æ”¾åœ¨windowsæ–‡ä»¶å¤¹ä¸‹)
+6. å°†pkg-config.exeå¤åˆ¶åˆ°C:\mingw\bin\ä¸‹
+7. å°†oci8.pcå¤åˆ¶åˆ°C:\mingw\lib\pkg-config\ä¸‹
+8. ä¿®æ”¹ç³»ç»Ÿç¯å¢ƒå˜é‡,æ·»åŠ 
+   - PATH=åŸæœ‰PATH;C:\instantclient_11_2;C:\mingw\bin;
    - PKG_CONFIG_PATH=C:\mingw\lib\pkg-config
-9. Ö´ĞĞ go get github.com/wendal/go-oci8
+9. æ‰§è¡Œ go get github.com/wendal/go-oci8
 
-ÔÚLinuxÏÂ°²×°
+åœ¨macä¸‹å®‰è£…  
+------------
+æ­¥éª¤1ï¼Œ2ï¼Œ3åŒä¸Š
+ociå’Œoci sdk ä¸‹è½½åœ°å€ï¼šhttp://www.oracle.com/technetwork/topics/intel-macsoft-096467.html
+(ä¸‹è½½instantclient-basicå’Œinstantclient-sdk)
+ä¸‹è½½å®Œæˆåï¼Œè¾“å…¥å¦‚ä¸‹å‘½ä»¤
+``` 
+   cd <instanclient path>
+   mv libclntsh.dylib.* libclntsh.dylib
+    
+   ln <instanclient path>/libclntsh.dylib /usr/lib/libclntsh.dylib
+   ln <instanclient path>/libocci.dylib.* /usr/lib/libocci.dylib.*
+   ln <instanclient path>/libociei.dylib /usr/lib/libociei.dylib
+   ln <instanclient path>/libnnz11.dylib /usr/lib/libnnz11.dylib
+```
+ä¿®æ”¹oci8.pcæ–‡ä»¶
+```
+   prefix=<replace instantclient path>
+   libdir=${prefix}
+   includedir=${prefix}/sdk/include/
+   
+   Name: OCI
+   Description: Oracle database engine
+   Version: 11.2
+   Libs: -L${libdir} -lclntsh
+   Libs.private: 
+   Cflags: -I${includedir}
+```
+ç”±äºosx ä¸Šé»˜è®¤æ˜¯æ²¡æœ‰pkg-configå·¥å…·çš„éœ€è¦æ‰‹åŠ¨å®‰è£…ä¸€ä¸‹
+```
+sudo brew install pkg-config 
+export PKG_COFNIG_PATH="/usr/lib/pkgconfig"
+```
+ä»¥ä¸Šå®Œæˆå go get github.com/wendal/go-oci8 å°±å¯ä»¥äº†
+
+åœ¨Linuxä¸‹å®‰è£…
 -------------
-´ıĞ´
+å¾…å†™
