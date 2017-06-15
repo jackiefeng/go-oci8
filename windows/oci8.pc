@@ -1,7 +1,7 @@
 # Package Information for pkg-config
 
-prefix=C:/instantclient_11_2
-exec_prefix=C:/instantclient_11_2
+prefix=/opt/instantclient_11_2
+exec_prefix=${prefix}
 libdir=${exec_prefix}
 includedir=${prefix}/sdk/include/
 
