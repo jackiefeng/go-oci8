@@ -116,7 +116,7 @@ func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 	rv = C.OCILogon(
 		(*C.OCIEnv)(conn.env),
 		(*C.OCIError)(conn.err),
-		(**C.OCIServer)(unsafe.Pointer(&conn.svc)),
+		(**C.OCISvcCtx)(unsafe.Pointer(&conn.svc)),
 		(*C.OraText)(unsafe.Pointer(puser)),
 		C.ub4(C.strlen(puser)),
 		(*C.OraText)(unsafe.Pointer(ppass)),
@@ -133,7 +133,7 @@ func (d *OCI8Driver) Open(dsn string) (driver.Conn, error) {
 
 func (c *OCI8Conn) Close() error {
 	rv := C.OCILogoff(
-		(*C.OCIServer)(c.svc),
+		(*C.OCISvcCtx)(c.svc),
 		(*C.OCIError)(c.err))
 	if rv == C.OCI_ERROR {
 		return ociGetError(c.err)
@@ -260,7 +260,7 @@ func (s *OCI8Stmt) Query(args []driver.Value) (driver.Rows, error) {
 	}
 
 	rv := C.OCIStmtExecute(
-		(*C.OCIServer)(s.c.svc),
+		(*C.OCISvcCtx)(s.c.svc),
 		(*C.OCIStmt)(s.s),
 		(*C.OCIError)(s.c.err),
 		iter,
@@ -380,7 +380,7 @@ func (s *OCI8Stmt) Exec(args []driver.Value) (driver.Result, error) {
 	}
 
 	rv := C.OCIStmtExecute(
-		(*C.OCIServer)(s.c.svc),
+		(*C.OCISvcCtx)(s.c.svc),
 		(*C.OCIStmt)(s.s),
 		(*C.OCIError)(s.c.err),
 		1,
