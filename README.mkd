@@ -98,6 +98,7 @@ export PKG_COFNIG_PATH="/usr/lib/pkgconfig"
    - export TNS_ADMIN
    
    保存，并执行source ~/.bash_profile
+   
 5. 将tnsnames.ora放到/opt/instantclient_11_2
 6. 测试demo
    cd /mnt/wwwroot/gofile/src/github.com/jackiefeng/go-oci8/example
