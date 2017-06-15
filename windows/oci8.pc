@@ -8,6 +8,6 @@ includedir=${prefix}/sdk/include/
 Name: OCI
 Description: Oracle database engine
 Version: 11.2
-Libs: -L${libdir} -loci
+Libs: -L${libdir} -lclntsh
 Libs.private: 
 Cflags: -I${includedir}
