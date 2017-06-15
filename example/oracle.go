@@ -2,7 +2,7 @@ package main
 
 import (
 	"database/sql"
-	_ "github.com/mattn/go-oci8"
+	_ "github.com/jackiefeng/go-oci8"
 	"os"
 	"log"
 )
